@@ -1,0 +1,48 @@
+{
+  "wo": {
+    "source": "scontext",
+    "begPairs": ["* Work Order: "],
+    "endPairs": [" "],
+    "type": "str",
+    "dbtype": "varchar(32)"
+  },
+  "sku_id": {
+    "source": "scontext",
+    "begPairs": [["card_type                 : ","card type = ", "CARDTYPE            : ","Part number: "]],
+    "endPairs": [["\n"," "]],
+    "actions": {"replace": [{"from": "K2X-N2", "to": "k2x_n2"}, {"from": "K2X-N", "to": "k2x_n_respin"}, {"from": "k2xa32gt2", "to": "k2x_a_32g_t2"}, 
+                            {"from": "k2v4", "to": "k2v4_"}, {"from": "k2v5", "to": "k2v5_"}, {"from": "k2v6", "to": "k2v6_"}]},
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+  "tbeg": {
+    "source": "scontext",
+    "begPairs": ["== Capture start "],
+    "endPairs": [" , "],
+    "type": "datetime",
+    "dbtype": "timestamp"
+  },
+  "tend": {
+    "source": "scontext",
+    "begPairs": ["== Capture end "],
+    "endPairs": [" ==="],
+    "begIndexs": [-1],
+    "type": "datetime",
+    "dbtype": "timestamp"
+  },
+  "brd_label": {
+    "source": "scontext",
+    "begPairs":[" BLVER "],
+    "endPairs":["#"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype":"varchar(32)"
+  },
+  "assembly_data": {
+    "source": "scontext",
+    "begPairs":[["MFG_PN\n"],["LOT_CODE\n"]],
+    "endPairs":[["\nEND","\n---","\n###"],["\n###","\nEND","\n---"]],
+    "type": "str",
+    "dbtype":"text"
+  }
+}

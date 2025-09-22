@@ -1,0 +1,1340 @@
+{
+  "fullpath": {
+    "source": "fullpath",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "bname": {
+    "source": "fullpath",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "split": {
+        "sep": "/",
+        "index": -1
+      }
+    },
+    "type": "str",
+    "dbtype": "varchar(40)"
+  },
+  "is_y": {
+    "source": "bname",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "split": {
+        "sep": "_",
+        "index": 2
+      },
+      "trueFalse": {
+        "compare": "Y"
+      }
+    },
+    "type": "bool",
+    "dbtype": "boolean"
+  },
+  "total_td": {
+    "source": "total_td",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "int",
+    "dbtype": "int",
+    "parseInTheEnd": true
+  },
+  "sn": {
+    "source": "scontext",
+    "begPairs": [["# SN=", "SN#"]],
+    "endPairs": [[" ",","]],
+    "type": "str",
+    "dbtype": "varchar(14)",
+    "description": "can be get from filename"
+  },
+  "tbeg": {
+    "source": "scontext",
+    "begPairs": ["== Capture start "],
+    "endPairs": [" , "],
+    "type": "datetime",
+    "dbtype": "timestamp"
+  },
+  "tend": {
+    "source": "scontext",
+    "begPairs": ["== Capture end "],
+    "endPairs": [" ==="],
+    "begIndexs": [-1],
+    "type": "datetime",
+    "dbtype": "timestamp"
+  },
+  "tm_td": {
+    "source": "scontext",
+    "begPairs": [["TOTAL                              PASS                               ","TOTAL                              FAIL                               "]],
+    "endPairs": [[" "]],
+    "begIndexs" : [-1],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "mac": {
+    "source": "scontext",
+    "begPairs": [["# MAC_START=","MAC#"]],
+    "endPairs": [[","," "]],
+    "type": "str",
+    "dbtype": "varchar(14)"
+  },
+  "tpver": {
+    "source": "scontext",
+    "begPairs": ["# TPVER="],
+    "endPairs": [[" ",","]],
+    "type": "str",
+    "dbtype": "varchar(20)"
+  },
+  "fwver": {
+    "source": "scontext",
+    "begPairs": ["# FWVER="],
+    "endPairs": [[" ",","]],
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+  "wo": {
+    "source": "scontext",
+    "begPairs": ["* Work Order: "],
+    "endPairs": [" "],
+    "type": "str",
+    "dbtype": "varchar(32)"
+  },
+  "line":{
+    "source": "scontext",
+    "begPairs": ["# LINE="],
+    "endPairs": [[" ", ","]],
+    "type": "str",
+    "dbtype": "varchar(12)"
+  },
+  "riser_use_cnt": {
+    "source": "scontext",
+    "begPairs": ["riser SN                   :", "# USE_COUNT = "],
+    "endPairs": ["_f_get_riser_sn", " "],
+    "type": "int",
+    "dbtype":"int"
+  },
+  "gbic_sn": {
+    "source": "scontext",
+    "begPairs": ["Vendor SN: "],
+    "endPairs": ["\n"],
+    "type": "str",
+    "dbtype": "varchar(20)"
+  },
+  "gbic_use_cnt": {
+    "source": "scontext",
+    "begPairs": ["FIXTURE_NAME  = GBIC 800G ", "USE_COUNT = " ],
+    "endPairs": ["FAIL_LIMIT", " "],
+    "type": "int",
+    "dbtype":"int"
+  },
+  "acc_commit": {
+    "source": "scontext",
+    "begPairs": ["acc commit="],
+    "endPairs": [" "],
+    "type": "str",
+    "dbtype": "varchar(20)"
+  },
+  "makalu_commit": {
+    "source": "scontext",
+    "begPairs": ["makalu commit="],
+    "endPairs": [" "],
+    "type": "str",
+    "dbtype": "varchar(20)"
+  },
+  "brd_label":{
+    "source": "scontext",
+    "type": "str",
+    "begPairs":[" BLVER "],
+    "endPairs":["#"],
+    "actions": {"strip": {}},
+    "dbtype":"varchar(32)"
+  },
+  "ult":{
+    "source": "scontext",
+    "type": "str",
+    "begPairs":["Info: ULT: "],
+    "endPairs":["\n"],
+    "actions": {"strip": {}},
+    "dbtype":"varchar(32)"
+  },
+  "rpi_temp_max": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs":[],
+    "endPairs":[],    
+    "actions": {
+      "findMaxPattern": {
+        "pattern": "temp=([0-9.]+)'C"
+      }
+    },
+    "dbtype":"float"
+  },
+  "soc_temp_max": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs":[],
+    "endPairs":[],
+    "actions": {
+      "findMaxPattern": {
+        "pattern": "SoC Thermal Margin.*?:\\s*([0-9]+)\\[C\\]"
+      }
+    },
+    "dbtype":"float"
+  },
+  "critical_temp_max": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "findMaxPattern": {
+        "pattern": "critical temperature reached \\((\\d+) C\\)"
+      }
+    },
+    "dbtype":"float"
+  },  
+  "kernel_panic": {
+    "source": "scontext",
+    "type": "bool",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "trueFalse": { "contains_nocase": "kernel panic" }
+    },
+    "dbtype": "boolean"
+  },
+  "ddr_00_t": {
+    "source": "scontext",
+    "begPairs": ["Info: ddr_thermal_ch0_0: "],
+    "endPairs": [" [oC]"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "ddr_10_t": {
+    "source": "scontext",
+    "begPairs": ["Info: ddr_thermal_ch1_0: "],
+    "endPairs": [" [oC]"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "ddr_01_t": {
+    "source": "scontext",
+    "begPairs": ["Info: ddr_thermal_ch0_1: "],
+    "endPairs": [" [oC]"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "ddr_11_t": {
+    "source": "scontext",
+    "begPairs": ["Info: ddr_thermal_ch1_1: "],
+    "endPairs": [" [oC]"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "TxDqDly0": {
+    "source": "scontext",
+    "begPairs": ["Info: Channel: 0","TxDqDly margin: "],
+    "endPairs": ["Info: Channel: 1","."],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "RxEnDly0": {
+    "source": "scontext",
+    "begPairs": ["Info: Channel: 0","RxEnDly margin: "],
+    "endPairs": ["Info: Channel: 1","."],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "RxClkDly0": {
+    "source": "scontext",
+    "begPairs": ["Info: Channel: 0","RxClkDly margin: "],
+    "endPairs": ["Info: Channel: 1","."],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "Vref_DAC0": {
+    "source": "scontext",
+    "begPairs": ["Info: Channel: 0","Vref_DAC margin: "],
+    "endPairs": ["Info: Channel: 1","."],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "VrefDq0": {
+    "source": "scontext",
+    "begPairs": ["Info: Channel: 0","VrefDq margin: "],
+    "endPairs": ["Info: Channel: 1","."],
+    "type": "float",
+    "dbtype": "float"
+  },
+  
+  "TxDqDly1": {
+    "source": "scontext",
+    "begPairs": ["Info: Channel: 1","TxDqDly margin: "],
+    "endPairs": ["Info: --- ","."],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "RxEnDly1": {
+    "source": "scontext",
+    "begPairs": ["Info: Channel: 1","RxEnDly margin: "],
+    "endPairs": ["Info: --- ","."],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "RxClkDly1": {
+    "source": "scontext",
+    "begPairs": ["Info: Channel: 1","RxClkDly margin: "],
+    "endPairs": ["Info: --- ","."],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "Vref_DAC1": {
+    "source": "scontext",
+    "begPairs": ["Info: Channel: 1","Vref_DAC margin: "],
+    "endPairs": ["Info: --- ","."],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "VrefDq1": {
+    "source": "scontext",
+    "begPairs": ["Info: Channel: 1","VrefDq margin: "],
+    "endPairs": ["Info: --- ","."],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "cecc_total": {
+    "source": "scontext",
+    "begPairs": ["Info: ddr_init_post_cecc_total: "],
+    "endPairs": [" ("],
+    "type": "int",
+    "dbtype": "int"
+  },
+  "uecc_total": {
+    "source": "scontext",
+    "begPairs": ["Info: ddr_init_post_uecc_total: "],
+    "endPairs": [" ("],
+    "type": "int",
+    "dbtype": "int"
+  },  
+
+  "mcf_soc_t_max": {
+    "source": "scontext",
+    "begPairs": ["AlDramSpecMcfPost test start",["K2_x_y_SOC_TEMP ","K2_x_y_SOC_TEMP] "]],
+    "endPairs": ["AlDramSpecMcfPost test end",["\n"]],
+    "type": "float",
+    "actions": {"split": { "sep": " ", "index": 0} },
+    "dbtype": "float"
+  },
+  "mcf_soc_t_min": {
+    "source": "scontext",
+    "begPairs": ["AlDramSpecMcfPost test start",["K2_x_y_SOC_TEMP ","K2_x_y_SOC_TEMP] "]],
+    "endPairs": ["AlDramSpecMcfPost test end",["\n"]],
+    "type": "float",
+    "actions": {"split": { "sep": " ", "index": 1} },
+    "dbtype": "float"
+  },
+  "mcf_soc_t_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["mcf_soc_t_max", "mcf_soc_t_min"]}
+    },
+    "dbtype": "float"
+  },
+
+  "berg5_soc_t_max": {
+    "source": "scontext",
+    "begPairs": ["AlSnpSerdesBERg5Post test start",["K2_x_y_SOC_TEMP ","K2_x_y_SOC_TEMP] "]],
+    "endPairs": ["AlSnpSerdesBERg5Post test end",["\n"]],
+    "type": "float",
+    "actions": {"split": { "sep": " ", "index": 0} },
+    "dbtype": "float"
+  },
+  "berg5_soc_t_min": {
+    "source": "scontext",
+    "begPairs": ["AlSnpSerdesBERg5Post test start",["K2_x_y_SOC_TEMP ","K2_x_y_SOC_TEMP] "]],
+    "endPairs": ["AlSnpSerdesBERg5Post test end",["\n"]],
+    "type": "float",
+    "actions": {"split": { "sep": " ", "index": 1} },
+    "dbtype": "float"
+  },
+  "berg5_soc_t_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["berg5_soc_t_max", "berg5_soc_t_min"]}
+    },
+    "dbtype": "float"
+  },
+
+  "vrm_cpu_ma":{
+    "source": "scontext",
+    "begPairs": ["Info: CPU:","Info: - current: "],
+    "endPairs": ["=========================","\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_cpu_mv":{
+    "source": "scontext",
+    "begPairs": ["Info: CPU:","Info: - voltage: "],
+    "endPairs": ["=========================","\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_cpu_t":{
+    "source": "scontext",
+    "begPairs": ["Info: CPU:","Info: - temp: "],
+    "endPairs": ["=========================","\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "vrm_core_ma":{
+    "source": "scontext",
+    "begPairs": ["Info: Core:","Info: - current: "],
+    "endPairs": ["=========================","\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_core_mv":{
+    "source": "scontext",
+    "begPairs": ["Info: Core:","Info: - voltage: "],
+    "endPairs": ["=========================","\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_core_t":{
+    "source": "scontext",
+    "begPairs": ["Info: Core:","Info: - temp: "],
+    "endPairs": ["=========================","\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "vrm_eth_ma": {
+    "source": "scontext",
+    "begPairs": ["Info: Eth (0v75):", "Info: - current: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_eth_mv": {
+    "source": "scontext",
+    "begPairs": ["Info: Eth (0v75):", "Info: - voltage: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_eth_t": {
+    "source": "scontext",
+    "begPairs": ["Info: Eth (0v75):", "Info: - temp: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "vrm_io_ma": {
+    "source": "scontext",
+    "begPairs": ["Info: I/O (1V8):", "Info: - current: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_io_mv": {
+    "source": "scontext",
+    "begPairs": ["Info: I/O (1V8):", "Info: - voltage: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_io_t": {
+    "source": "scontext",
+    "begPairs": ["Info: I/O (1V8):", "Info: - temp: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "vrm_pcie_ma": {
+    "source": "scontext",
+    "begPairs": ["Info: PCIe (0v9):", "Info: - current: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_pcie_mv": {
+    "source": "scontext",
+    "begPairs": ["Info: PCIe (0v9):", "Info: - voltage: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_pcie_t": {
+    "source": "scontext",
+    "begPairs": ["Info: PCIe (0v9):", "Info: - temp: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "vrm_mem_ma": {
+    "source": "scontext",
+    "begPairs": ["Info: Mem (1v1):", "Info: - current: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_mem_mv": {
+    "source": "scontext",
+    "begPairs": ["Info: Mem (1v1):", "Info: - voltage: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_mem_t": {
+    "source": "scontext",
+    "begPairs": ["Info: Mem (1v1):", "Info: - temp: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "vrm_hsn_ma": {
+    "source": "scontext",
+    "begPairs": ["Info: HSN (3v3):", "Info: - current: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_hsn_mv": {
+    "source": "scontext",
+    "begPairs": ["Info: HSN (3v3):", "Info: - voltage: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_hsn_t": {
+    "source": "scontext",
+    "begPairs": ["Info: HSN (3v3):", "Info: - temp: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "temp_thermal_diode": {
+    "source": "scontext",
+    "begPairs": ["Info: Thermal-Diode:", "Info: - temp: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "temp_uc_tempmon": {
+    "source": "scontext",
+    "begPairs": ["Info: uC Tempmon:", "Info: - temp: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "vrm_12v_mv": {
+    "source": "scontext",
+    "begPairs": ["Info: 12v:", "Info: - voltage: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_12v_ma": {
+    "source": "scontext",
+    "begPairs": ["Info: 12v:", "Info: - current: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "vrm_3v3main_mv": {
+    "source": "scontext",
+    "begPairs": ["Info: 3v3 Main:", "Info: - voltage: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_3v3main_ma": {
+    "source": "scontext",
+    "begPairs": ["Info: 3v3 Main:", "Info: - current: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "vrm_12v2ext_mv": {
+    "source": "scontext",
+    "begPairs": ["Info: 12v_2 Ext:", "Info: - voltage: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_12v2ext_ma": {
+    "source": "scontext",
+    "begPairs": ["Info: 12v_2 Ext:", "Info: - current: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "vrm_3v3aux_mv": {
+    "source": "scontext",
+    "begPairs": ["Info: 3v3 Aux:", "Info: - voltage: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "vrm_3v3aux_ma": {
+    "source": "scontext",
+    "begPairs": ["Info: 3v3 Aux:", "Info: - current: "],
+    "endPairs": ["=========================", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "alsdr_cpu_temp": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: K2 card CPU temperature: "],
+    "endPairs": ["AlAlpineSdr test end", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "alsdr_worst_temp": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: K2 card worst temperature monitoring [K2_x_y_GLBL_TMP] = "],
+    "endPairs": ["AlAlpineSdr test end", [" [C]","\n"]],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "alsdr_mem_temp": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: Memory Temperature [K2_x_y_MEM_TMP] = "],
+    "endPairs": ["AlAlpineSdr test end", [" [C]","\n"]],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "alsdr_soc_temp": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: SoC Thermal Margin [K2_x_y_SOC_TMP] = "],
+    "endPairs": ["AlAlpineSdr test end", [" [C]","\n"]],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "alsdr_12v_a_in": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: K2 Current In [K2_x_12V_A_IN] = "],
+    "endPairs": ["AlAlpineSdr test end", [" [A]","\n"]],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "alsdr_3v3_a_in": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: K2 Current In [K2_x_3.3V_A_IN] = "],
+    "endPairs": ["AlAlpineSdr test end", [" [A]","\n"]],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "alsdr_12v_in": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: K2 V In [K2_x_12V_IN] = "],
+    "endPairs": ["AlAlpineSdr test end", [" [V]","\n"]],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "alsdr_3v3_in": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: K2 V In [K2_x_3.3V_IN] = "],
+    "endPairs": ["AlAlpineSdr test end", [" [V]","\n"]],
+    "type": "float",
+    "dbtype": "float"
+  },
+  
+  "hpl_mem_temp_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_MEM_TEMP ","K2_x_y_MEM_TEMP] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_mem_temp_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_MEM_TEMP ","K2_x_y_MEM_TEMP] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_mem_temp_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_mem_temp_max", "hpl_mem_temp_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_soc_temp_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_SOC_TEMP ","K2_x_y_SOC_TEMP] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_soc_temp_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_SOC_TEMP ","K2_x_y_SOC_TEMP] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_soc_temp_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_soc_temp_max", "hpl_soc_temp_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_12v_a_in_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start",["K2_x_12V_A_IN " ,"K2_x_12V_A_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end",["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_12v_a_in_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V_A_IN " ,"K2_x_12V_A_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_12v_a_in_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_12v_a_in_max", "hpl_12v_a_in_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_3v3_a_in_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_3.3V_A_IN ","K2_x_3.3V_A_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_3v3_a_in_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_3.3V_A_IN ","K2_x_3.3V_A_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_3v3_a_in_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_3v3_a_in_max", "hpl_3v3_a_in_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_12v_in_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V_IN ","K2_x_12V_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_12v_in_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V_IN ","K2_x_12V_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_12v_in_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_12v_in_max", "hpl_12v_in_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_3v3_in_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_3.3V_IN ","K2_x_3.3V_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_3v3_in_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_3.3V_IN ","K2_x_3.3V_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_3v3_in_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_3v3_in_max", "hpl_3v3_in_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_ps3_a_o_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS3_A_O ","K2_x_y_PS3_A_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_ps3_a_o_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS3_A_O ","K2_x_y_PS3_A_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_ps3_a_o_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_ps3_a_o_max", "hpl_ps3_a_o_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_ps3_v_o_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS3_V_O ","K2_x_y_PS3_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_ps3_v_o_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS3_V_O ","K2_x_y_PS3_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_ps3_v_o_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_ps3_v_o_max", "hpl_ps3_v_o_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_ps1_a_o_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS1_A_O ","K2_x_y_PS1_A_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_ps1_a_o_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS1_A_O ","K2_x_y_PS1_A_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_ps1_a_o_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_ps1_a_o_max", "hpl_ps1_a_o_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_ps2_a_o_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS2_A_O ","K2_x_y_PS2_A_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_ps2_a_o_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS2_A_O ","K2_x_y_PS2_A_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_ps2_a_o_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_ps2_a_o_max", "hpl_ps2_a_o_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_ps1_v_o_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS1_V_O ","K2_x_y_PS1_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_ps1_v_o_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS1_V_O ","K2_x_y_PS1_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_ps1_v_o_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_ps1_v_o_max", "hpl_ps1_v_o_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_ps2_v_o_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS2_V_O ","K2_x_y_PS2_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_ps2_v_o_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS2_V_O ","K2_x_y_PS2_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_ps2_v_o_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_ps2_v_o_max", "hpl_ps2_v_o_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_12v2_in_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V2_IN ", "K2_x_12V2_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_12v2_in_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V2_IN ", "K2_x_12V2_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_12v2_in_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_12v2_in_max", "hpl_12v2_in_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_12v2_a_in_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V2_A_IN ","K2_x_12V2_A_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_12v2_a_in_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V2_A_IN ","K2_x_12V2_A_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_12v2_a_in_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_12v2_a_in_max", "hpl_12v2_a_in_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_ps4_v_o_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS4_V_O ", "K2_x_y_PS4_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_ps4_v_o_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS4_V_O ", "K2_x_y_PS4_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_ps4_v_o_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_ps4_v_o_max", "hpl_ps4_v_o_min"]}},
+    "dbtype": "float"
+  },
+
+  "slot": {
+    "source": "bname",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "split": {
+        "sep": "_",
+        "index": 3
+      }
+    },
+    "type": "str",
+    "dbtype": "varchar(12)"
+  },
+  "test_pc_ip": {
+    "source": "scontext",
+    "begPairs": ["# TEST_PC_IP="],
+    "endPairs": [" "],
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+  "test_pc_ip_slot": {
+    "source": "scontext",
+    "begPairs": ["# TEST_PC_IP="],
+    "endPairs": [" "],
+    "actions": {
+      "merge": {
+        "with_var": "slot",
+        "sep": "_"
+      }
+    },
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+  "jig": {
+    "source": "scontext",
+    "begPairs": ["Mechanical Fixture : "],
+    "endPairs": [" "],
+    "type": "str",
+    "dbtype": "varchar(32)"
+  },
+  "rtc_pn": {
+    "source": "scontext",
+    "begPairs": ["RTC PN: "],
+    "endPairs": ["\n"],
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+  "err_msg": {
+    "source": "scontext",
+    "begPairs": ["# ErrorMSG: "],
+    "endPairs": [ "#"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype": "text"
+  },
+  "err_id": {
+    "source": "scontext",
+    "begPairs": ["# ErrorId:  "],
+    "endPairs": [ "#"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+  "hash_value": {
+    "source": "scontext",
+    "begPairs":["MFG_PN\n"],
+    "endPairs":[["\nEND","\n---","\n###"]],
+    "actions": {"hash" : {}},
+    "type": "str",
+    "dbtype":"text"
+  },
+
+  "testplatform_sn": {
+    "source": "scontext",
+    "begPairs": ["aio SN               : "],
+    "endPairs": ["\n"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype": "text"
+  },
+  "testplatform_pn": {
+    "source": "scontext",
+    "begPairs": ["aio PN               : "],
+    "endPairs": ["\n"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype": "text"
+  },
+  "testplatform_ver": {
+    "source": "scontext",
+    "begPairs": ["aio PCB_VER          : "],
+    "endPairs": ["\n"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype": "text"
+  },
+  "platform_12v_v": {
+    "source": "scontext",
+    "begPairs": ["P/T env set and check", "12V     :  "],
+    "endPairs": ["-- Voltage Source", " V"],
+    "actions": {"strip": {}},
+    "type": "float",
+    "dbtype": "float"
+  },
+  "platform_12v_a": {
+    "source": "scontext",
+    "begPairs": ["P/T env set and check", "V , "],
+    "endPairs": ["-- Voltage Source", " mA"],
+    "actions": {"strip": {}},
+    "type": "float",
+    "dbtype": "float"
+  },
+  "platform_3v3_aux_v": {
+    "source": "scontext",
+    "begPairs": ["P/T env set and check", "3V3_AUX :"],
+    "endPairs": ["-- Voltage Source", " V"],
+    "actions": {"strip": {}},
+    "type": "float",
+    "dbtype": "float"
+  },
+  "platform_3v3_aux_a": {
+    "source": "scontext",
+    "begPairs": ["3V3_AUX :", "V , "],
+    "endPairs": ["3V3_S0  :", " mA"],
+    "actions": {"strip": {}},
+    "type": "float",
+    "dbtype": "float"
+  },
+  "platform_3v3_s0_v": {
+    "source": "scontext",
+    "begPairs": ["P/T env set and check", "3V3_S0  :   "],
+    "endPairs": ["-- Voltage Source", " V"],
+    "actions": {"strip": {}},
+    "type": "float",
+    "dbtype": "float"
+  },
+  "platform_3v3_s0_a": {
+    "source": "scontext",
+    "begPairs": ["3V3_S0  :   ", "V , "],
+    "endPairs": ["-- Voltage Source", " mA"],
+    "actions": {"strip": {}},
+    "type": "float",
+    "dbtype": "float"
+  },
+  "rpi":{
+    "source": "scontext",
+    "begPairs": ["RPI Module    : "],
+    "endPairs": ["\n"],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "rpi_type":{
+    "source": "scontext",
+    "begPairs": ["Raspberry PI model:", "Type: "],
+    "endPairs": ["Network configuration", ","],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "rpi_revision":{
+    "source": "scontext",
+    "begPairs": ["Raspberry PI model:", "Revision: "],
+    "endPairs": ["Network configuration", ","],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "rpi_memory":{
+    "source": "scontext",
+    "begPairs": ["Raspberry PI model:", "Memory: "],
+    "endPairs": ["Network configuration", "MB"],
+    "type": "str",
+    "dbtype": "int"
+  },
+  "rpi_maker":{
+    "source": "scontext",
+    "begPairs": ["Raspberry PI model:", "Maker: "],
+    "endPairs": ["Network configuration", "\n"],
+    "type": "str",
+    "dbtype": "text"
+  },
+
+  "rpi_ip": {
+    "source": "scontext",
+    "begPairs": ["*-->","inet "],
+    "endPairs": ["Kernel IP routing table"," "],
+    "begIndexs": [1,2],
+    "type": "str",
+    "dbtype": "varchar(30)"
+  },
+  "rpi_mac": {
+    "source": "scontext",
+    "begPairs": ["ether "],
+    "endPairs": [[" ","\n"]],
+    "type": "str",
+    "dbtype": "varchar(20)"
+  },
+  "vlan28_ip": {
+    "source": "scontext",
+    "begPairs": ["IPv4 address for vlan28: "],
+    "endPairs": ["\n"],
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+
+  
+
+  "gbic_temp": {
+    "source": "scontext",
+    "begPairs": ["ActiveLoopbackStatus test start", "Module Monitor Temprature: "],
+    "endPairs": ["ActiveLoopbackStatus test end", "C"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "gbic_volt": {
+    "source": "scontext",
+    "begPairs": ["ActiveLoopbackStatus test start", "Module Monitor 3.3 Volt: "],
+    "endPairs": ["ActiveLoopbackStatus test end", "uV"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "gbic_fwver": {
+    "source": "scontext",
+    "begPairs": ["ActiveLoopbackStatus test start", "Module Active FW Version: "],
+    "endPairs": ["ActiveLoopbackStatus test end", "\n"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+  "gbic_pn": {
+    "source": "scontext",
+    "begPairs": ["ActiveLoopbackStatus test start", "Vendor PN: "],
+    "endPairs": ["ActiveLoopbackStatus test end", "\n"],
+    "type": "str",
+    "dbtype": "varchar(20)"
+  },
+  "tm_logpath": {
+    "source": "scontext",
+    "begPairs": [["[INFO] logpath : ","Log path generated: "]],
+    "endPairs": ["\n"],
+    "type": "str",
+    "dbtype": "varchar(200)"
+  },
+  "rpi_sdram_c_v_max": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs":[],
+    "endPairs":[],    
+    "actions": {
+      "findMaxPattern": {
+        "pattern": "sdram_c volt=([0-9.]+)V"
+      }
+    },
+    "dbtype":"float"
+  },
+  "rpi_sdram_i_v_max": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs":[],
+    "endPairs":[],    
+    "actions": {
+      "findMaxPattern": {
+        "pattern": "sdram_i volt=([0-9.]+)V"
+      }
+    },
+    "dbtype":"float"
+  },
+  "rpi_sdram_p_v_max": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs":[],
+    "endPairs":[],    
+    "actions": {
+      "findMaxPattern": {
+        "pattern": "sdram_p volt=([0-9.]+)V"
+      }
+    },
+    "dbtype":"float"
+  },
+  "rpi_core_v_max": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs":[],
+    "endPairs":[],    
+    "actions": {
+      "findMaxPattern": {
+        "pattern": "core volt=([0-9.]+)V"
+      }
+    },
+    "dbtype":"float"
+  },
+  
+  "riser_sn": {
+    "source": "scontext",
+    "begPairs": [
+      ["riser SN                   : "],
+      ["riser SN               : "]
+    ],
+    "endPairs": [
+      [" ", "\n"],
+      [" ", "\n"]
+    ],
+    "actions": {"strip": {}},    
+    "type": "str",
+    "dbtype": "varchar(20)"
+  },
+  "soc_temp_min": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs":[],
+    "endPairs":[],
+    "actions": {
+      "findMinPattern": {
+        "pattern": "SoC Thermal Margin.*?:\\s*([0-9]+)\\[C\\]"
+      }
+    },
+    "dbtype":"float"
+  }
+}

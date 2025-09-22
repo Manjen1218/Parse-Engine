@@ -1,0 +1,60 @@
+{
+  "mcc_hostname": {
+    "source": "scontext",
+    "begPairs": ["[Info] Hostname: "],
+    "endPairs": ["\n"],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "mcc_check": {
+    "source": "scontext",
+    "begPairs": ["Check MCC Server ... "],
+    "endPairs": ["\n"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype": "text"  
+  },
+  "mcc_upload": {
+    "source": "scontext",
+    "begPairs": ["Check MCC Server Upload ... "],
+    "endPairs": ["\n"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype": "text"
+  },
+  "mcc_tag": {
+    "source": "scontext",
+    "begPairs": ["MCC tag: MCC-"],
+    "endPairs": ["\n"],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "mcc_err_check": {
+    "source": "scontext",
+    "begPairs": ["Execute MCC Check... =====", "[Error] "],
+    "endPairs": ["=====", "\n"],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "mcc_err_upload": {
+    "source": "scontext",
+    "begPairs": [["Execute MCC Upload...", "Execute MCC Server Upload..."], "[Error] "],
+    "endPairs": ["[FAIL]", "\n"],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "mcc_check_time": {
+    "source": "scontext",
+    "begPairs": ["Date: "],
+    "endPairs": [" CST"],
+    "type": "datetime",
+    "dbtype": "timestamp"
+  },
+  "mcc_upload_time": {
+    "source": "scontext",
+    "begPairs": [["Execute MCC Upload...", "Execute MCC Server Upload..."], "Date: "],
+    "endPairs": ["Check", " CST"],
+    "type": "datetime",
+    "dbtype": "timestamp"
+  }
+}

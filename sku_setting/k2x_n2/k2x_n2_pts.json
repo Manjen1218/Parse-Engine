@@ -1,0 +1,222 @@
+{
+  "fullpath": {
+    "source": "fullpath",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "bname": {
+    "source": "fullpath",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "split": {
+        "sep": "/",
+        "index": -1
+      }
+    },
+    "type": "str",
+    "dbtype": "varchar(40)"
+  },
+  "is_y": {
+    "source": "bname",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "split": {
+        "sep": "_",
+        "index": 2
+      },
+      "trueFalse": {
+        "compare": "Y"
+      }
+    },
+    "type": "bool",
+    "dbtype": "boolean"
+  },
+  "total_td": {
+    "source": "total_td",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "int",
+    "dbtype": "int",
+    "parseInTheEnd": true
+  },
+  "sn": {
+    "source": "scontext",
+    "begPairs": ["# SN="],
+    "endPairs": [[" ",","]],
+    "type": "str",
+    "dbtype": "varchar(14)",
+    "description": "can be get from filename"
+  },
+  "tbeg": {
+    "source": "scontext",
+    "begPairs": ["== Capture start "],
+    "endPairs": [" , "],
+    "type": "datetime",
+    "dbtype": "timestamp"
+  },
+  "tend": {
+    "source": "scontext",
+    "begPairs": ["== Capture end "],
+    "endPairs": [" ==="],
+    "begIndexs": [-1],
+    "type": "datetime",
+    "dbtype": "timestamp"
+  },
+  "mac": {
+    "source": "scontext",
+    "begPairs": ["# MAC_START="],
+    "endPairs": [[","," "]],
+    "type": "str",
+    "dbtype": "varchar(14)"
+  },  
+  "tpver": {
+    "source": "scontext",
+    "begPairs": ["# TPVER="],
+    "endPairs": [[" ",","]],
+    "type": "str",
+    "dbtype": "varchar(20)"
+  },
+  "fwver": {
+    "source": "scontext",
+    "begPairs": ["# FWVER="],
+    "endPairs": [[" ",","]],
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+  "wo": {
+    "source": "scontext",
+    "type": "str",
+    "begPairs": ["_f_sfis_Save_Test_Result:"],
+    "endPairs": ["\n"],
+    "actions": {
+      "split": {
+        "sep": ",",
+        "index": 5
+      }
+    },
+    "dbtype": "varchar(32)"
+  },
+  "line": {
+    "source": "scontext",
+    "begPairs": ["# LINE="],
+    "endPairs": [[" ", ","]],
+    "type": "str",
+    "dbtype": "varchar(12)"
+  },
+  "ult":{
+    "source": "scontext",
+    "type": "str",
+    "begPairs":["SoC ULT: "],
+    "endPairs":["-------------"],
+    "actions": {"replace": {"from": "\n", "to": ""}, "strip": {}},
+    "dbtype":"varchar(32)"
+  },  
+  "rpi_temp_max": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs":[],
+    "endPairs":[],    
+    "actions": {
+      "findMaxPattern": {
+        "pattern": "temp=([0-9.]+)'C"
+      }
+    },
+    "dbtype":"float"
+  },
+  "soc_temp_max": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs":[],
+    "endPairs":[],
+    "actions": {
+      "findMaxPattern": {
+        "pattern": "\ntemperature: ([0-9.]+) celsius"
+      }
+    },
+    "dbtype":"float"
+  },
+  "critical_temp_max": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "findMaxPattern": {
+        "pattern": "critical temperature reached \\((\\d+) C\\)"
+      }
+    },
+    "dbtype":"float"
+  },
+  "kernel_panic": {
+    "source": "scontext",
+    "type": "bool",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "trueFalse": { "contains_nocase": "kernel panic" }
+    },
+    "dbtype": "boolean"
+  },
+  
+  "slot": {
+    "source": "bname",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "split": {
+        "sep": "_",
+        "index": 3
+      }
+    },
+    "type": "str",
+    "dbtype": "varchar(12)"
+  },
+  "test_pc_ip": {
+    "source": "scontext",
+    "begPairs": ["# TEST_PC_IP="],
+    "endPairs": [" "],
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+  "jig": {
+    "source": "scontext",
+    "begPairs": ["# TEST_PC_IP="],
+    "endPairs": [" "],
+    "actions": {
+      "merge": {
+        "with_var": "slot",
+        "sep": "_"
+      }
+    },
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+  "dbbrd_sn": {
+    "source": "scontext",
+    "begPairs": ["DB Mainboard SN : "],
+    "endPairs": ["#"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype": "varchar(12)"
+  },
+  "err_msg": {
+    "source": "scontext",
+    "begPairs": ["# ErrorMSG: "],
+    "endPairs": [ "#"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype": "text"
+  },
+  "err_id": {
+    "source": "scontext",
+    "begPairs": ["# ErrorId:  "],
+    "endPairs": [ "#"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype": "varchar(16)"
+  }
+}

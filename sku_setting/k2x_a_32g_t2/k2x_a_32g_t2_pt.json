@@ -1,0 +1,690 @@
+{
+  "fullpath": {
+    "source": "fullpath",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "bname": {
+    "source": "fullpath",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "split": {
+        "sep": "/",
+        "index": -1
+      }
+    },
+    "type": "str",
+    "dbtype": "VARCHAR(40)"
+  },
+  "is_y": {
+    "source": "bname",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "split": {
+        "sep": "_",
+        "index": 2
+      },
+      "trueFalse": {
+        "compare": "Y"
+      }
+    },
+    "type": "bool",
+    "dbtype": "boolean"
+  },
+  "total_td": {
+    "source": "total_td",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "int",
+    "dbtype": "int",
+    "parseInTheEnd": true
+  },
+  "sn": {
+    "source": "scontext",
+    "begPairs": ["# SN="],
+    "endPairs": [[" ",","]],
+    "type": "str",
+    "dbtype": "VARCHAR(14)",
+    "description": "can be get from filename"
+  },
+  "tbeg": {
+    "source": "scontext",
+    "begPairs": ["== Capture start "],
+    "endPairs": [" , "],
+    "type": "datetime",
+    "dbtype": "timestamp"
+  },
+  "tend": {
+    "source": "scontext",
+    "begPairs": ["== Capture end "],
+    "endPairs": [" ==="],
+    "begIndexs": [-1],
+    "type": "datetime",
+    "dbtype": "timestamp"
+  },
+  "tm_td": {
+    "source": "scontext",
+    "begPairs": [["TOTAL                              PASS                               ","TOTAL                              FAIL                               "]],
+    "endPairs": [[" "]],
+    "begIndexs" : [-1],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "mac": {
+    "source": "scontext",
+    "begPairs": ["# MAC_START="],
+    "endPairs": [[","," "]],
+    "type": "str",
+    "dbtype": "VARCHAR(14)"
+  },
+  "tpver": {
+    "source": "scontext",
+    "begPairs": ["# TPVER="],
+    "endPairs": [[" ",","]],
+    "type": "str",
+    "dbtype": "VARCHAR(20)"
+  },
+  "fwver": {
+    "source": "scontext",
+    "begPairs": ["# FWVER="],
+    "endPairs": [[" ",","]],
+    "type": "str",
+    "dbtype": "VARCHAR(16)"
+  },
+  "wo": {
+    "source": "scontext",
+    "begPairs": ["_f_sfis_Save_Test_Result: "],
+    "endPairs": ["\n"],
+    "actions": {
+      "split": {
+        "sep": ",",
+        "index": 5
+      }
+    },
+    "type": "str",
+    "dbtype": "VARCHAR(32)"
+  },
+  "line":{
+    "source": "scontext",
+    "begPairs": ["# LINE="],
+    "endPairs": [[" ", ","]],
+    "type": "str",
+    "dbtype": "varchar(12)"
+  },
+  "gbic_sn": {
+    "source": "scontext",
+    "begPairs": ["FIXTURE_NO  = "],
+    "endPairs": [" "],
+    "type": "str",
+    "dbtype": "varchar(20)"
+  },
+  "gbic_use_cnt": {
+    "source": "scontext",
+    "begPairs": ["FIXTURE_NAME  = GBIC ", "USE_COUNT = " ],
+    "endPairs": ["###", " "],
+    "type": "int",
+    "dbtype":"int"
+  },
+  "brd_label":{
+    "source": "scontext",
+    "type": "str",
+    "begPairs":[" BLVER "],
+    "endPairs":["#"],
+    "actions": {"strip": {}},
+    "dbtype":"varchar(32)"
+  },
+  "ult":{
+    "source": "scontext",
+    "type": "str",
+    "begPairs":["Info: ULT: "],
+    "endPairs":["\n"],
+    "actions": {"strip": {}},
+    "dbtype":"varchar(32)"
+  },
+  "rpi_temp_max": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs":[],
+    "endPairs":[],    
+    "actions": {
+      "findMaxPattern": {
+        "pattern": "temp=([0-9.]+)'C"
+      }
+    },
+    "dbtype":"float"
+  },
+  "soc_temp_max": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs":[],
+    "endPairs":[],
+    "actions": {
+      "findMaxPattern": {
+        "pattern": "SoC Thermal Margin.*?:\\s*([0-9]+)"
+      }
+    },
+    "dbtype":"float"
+  },
+  "critical_temp_max": {
+    "source": "scontext",
+    "type": "float",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "findMaxPattern": {
+        "pattern": "critical temperature reached \\((\\d+) C\\)"
+      }
+    },
+    "dbtype":"float"
+  },  
+  "kernel_panic": {
+    "source": "scontext",
+    "type": "bool",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "trueFalse": { "contains_nocase": "kernel panic" }
+    },
+    "dbtype": "boolean"
+  },
+
+  "alsdr_cpu_temp": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: K2 card CPU temperature: "],
+    "endPairs": ["AlAlpineSdr test end", "\n"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "alsdr_soc_temp": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: SoC Temperature = "],
+    "endPairs": ["AlAlpineSdr test end", " [C]"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "alsdr_12v_a_in": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: 12V current = "],
+    "endPairs": ["AlAlpineSdr test end", " [A]"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "alsdr_3v3_a_in": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: 3.3V current = "],
+    "endPairs": [" AlAlpineSdr test end", " [A]"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "alsdr_12v_in": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: 12V voltage = "],
+    "endPairs": ["AlAlpineSdr test end", " [V]"],
+    "type": "float",
+    "dbtype": "float"
+  },
+  "alsdr_3v3_in": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineSdr test start", "Info: 3.3V voltage: = "],
+    "endPairs": [" AlAlpineSdr test end", " [V]"],
+    "type": "float",
+    "dbtype": "float"
+  },
+
+  "hpl_mem_temp_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_MEM_TEMP ","K2_x_y_MEM_TEMP] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_mem_temp_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_MEM_TEMP ","K2_x_y_MEM_TEMP] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_mem_temp_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_mem_temp_max", "hpl_mem_temp_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_soc_temp_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_SOC_TEMP ","K2_x_y_SOC_TEMP] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_soc_temp_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_SOC_TEMP ","K2_x_y_SOC_TEMP] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_soc_temp_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_soc_temp_max", "hpl_soc_temp_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_12v_a_in_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start",["K2_x_12V_A_IN " ,"K2_x_12V_A_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end",["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_12v_a_in_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V_A_IN " ,"K2_x_12V_A_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_12v_a_in_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_12v_a_in_max", "hpl_12v_a_in_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_3v3_a_in_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_3.3V_A_IN ","K2_x_3.3V_A_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_3v3_a_in_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_3.3V_A_IN ","K2_x_3.3V_A_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_3v3_a_in_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_3v3_a_in_max", "hpl_3v3_a_in_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_12v_in_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V_IN ","K2_x_12V_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_12v_in_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V_IN ","K2_x_12V_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_12v_in_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_12v_in_max", "hpl_12v_in_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_3v3_in_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_3.3V_IN ","K2_x_3.3V_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_3v3_in_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_3.3V_IN ","K2_x_3.3V_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_3v3_in_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_3v3_in_max", "hpl_3v3_in_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_ps3_a_o_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS3_A_O ","K2_x_y_PS3_A_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_ps3_a_o_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS3_A_O ","K2_x_y_PS3_A_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_ps3_a_o_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_ps3_a_o_max", "hpl_ps3_a_o_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_ps3_v_o_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS3_V_O ","K2_x_y_PS3_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_ps3_v_o_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS3_V_O ","K2_x_y_PS3_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_ps3_v_o_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_ps3_v_o_max", "hpl_ps3_v_o_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_ps1_a_o_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS1_A_O ","K2_x_y_PS1_A_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_ps1_a_o_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS1_A_O ","K2_x_y_PS1_A_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_ps1_a_o_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_ps1_a_o_max", "hpl_ps1_a_o_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_ps2_a_o_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS2_A_O ","K2_x_y_PS2_A_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_ps2_a_o_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS2_A_O ","K2_x_y_PS2_A_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_ps2_a_o_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_ps2_a_o_max", "hpl_ps2_a_o_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_ps1_v_o_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS1_V_O ","K2_x_y_PS1_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_ps1_v_o_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS1_V_O ","K2_x_y_PS1_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_ps1_v_o_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_ps1_v_o_max", "hpl_ps1_v_o_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_ps2_v_o_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS2_V_O ","K2_x_y_PS2_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_ps2_v_o_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_y_PS2_V_O ","K2_x_y_PS2_V_O] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_ps2_v_o_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_ps2_v_o_max", "hpl_ps2_v_o_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_12v2_in_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V2_IN ", "K2_x_12V2_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_12v2_in_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V2_IN ", "K2_x_12V2_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_12v2_in_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_12v2_in_max", "hpl_12v2_in_min"]}},
+    "dbtype": "float"
+  },
+  "hpl_12v2_a_in_max": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V2_A_IN ","K2_x_12V2_A_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 0}},
+    "dbtype": "float"
+  },
+  "hpl_12v2_a_in_min": {
+    "source": "scontext",
+    "begPairs": ["AlAlpineHplPost test start", ["K2_x_12V2_A_IN ","K2_x_12V2_A_IN] "]],
+    "endPairs": ["AlAlpineHplPost test end", ["\n"]],
+    "type": "float",
+    "actions": {"split": {"sep": " ", "index": 1}},
+    "dbtype": "float"
+  },
+  "hpl_12v2_a_in_delta": {
+    "source": "scontext",
+    "begPairs": [],
+    "endPairs": [],
+    "type": "float",
+    "actions": {"delta": {"from_keys": ["hpl_12v2_a_in_max", "hpl_12v2_a_in_min"]}},
+    "dbtype": "float"
+  },
+
+  "jig": {
+    "source": "scontext",
+    "begPairs": ["Mechanical Fixture : "],
+    "endPairs": [" "],
+    "type": "str",
+    "dbtype": "VARCHAR(32)"
+  },
+  "slot": {
+    "source": "bname",
+    "begPairs": [],
+    "endPairs": [],
+    "actions": {
+      "split": {
+        "sep": "_",
+        "index": 3
+      }
+    },
+    "type": "str",
+    "dbtype": "varchar(12)"
+  },
+  "test_pc_ip": {
+    "source": "scontext",
+    "begPairs": ["# TEST_PC_IP="],
+    "endPairs": [" "],
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+  "test_pc_ip_slot": {
+    "source": "scontext",
+    "begPairs": ["# TEST_PC_IP="],
+    "endPairs": [" "],
+    "actions": {
+      "merge": {
+        "with_var": "slot",
+        "sep": "_"
+      }
+    },
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+  "err_msg": {
+    "source": "scontext",
+    "begPairs": ["# ErrorMSG: "],
+    "endPairs": [ "#"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype": "TEXT"
+  },
+  "err_id": {
+    "source": "scontext",
+    "begPairs": ["# ErrorId:  "],
+    "endPairs": [ "#"],
+    "actions": {"strip": {}},
+    "type": "str",
+    "dbtype": "varchar(16)"
+  },
+  "hash_value": {
+    "source": "scontext",
+    "begPairs":["LOT_CODE\n"],
+    "endPairs":[["\nEND","\n---","\n###"]],
+    "actions": {"hash" : {}},
+    "type": "str",
+    "dbtype":"text"
+  },
+  "rpi":{
+    "source": "scontext",
+    "begPairs": ["RPI board version: "],
+    "endPairs": ["\n"],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "rpi_type":{
+    "source": "scontext",
+    "begPairs": ["Raspberry PI model:", "Type: "],
+    "endPairs": ["Network configuration", ","],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "rpi_revision":{
+    "source": "scontext",
+    "begPairs": ["Raspberry PI model:", "Revision: "],
+    "endPairs": ["Network configuration", ","],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "rpi_memory":{
+    "source": "scontext",
+    "begPairs": ["Raspberry PI model:", "Memory: "],
+    "endPairs": ["Network configuration", "MB"],
+    "type": "str",
+    "dbtype": "int"
+  },
+  "rpi_maker":{
+    "source": "scontext",
+    "begPairs": ["Raspberry PI model:", "Maker: "],
+    "endPairs": ["Network configuration", "\n"],
+    "type": "str",
+    "dbtype": "text"
+  },
+  "rpi_ip": {
+    "source": "scontext",
+    "begPairs": ["*-->","inet "],
+    "endPairs": ["Kernel IP routing table"," "],
+    "begIndexs": [1,2],
+    "type": "str",
+    "dbtype": "varchar(30)"
+  },
+  "rpi_mac": {
+    "source": "scontext",
+    "begPairs": ["ether "],
+    "endPairs": [[" ","\n"]],
+    "type": "str",
+    "dbtype": "varchar(20)"
+  }
+ 
+}
