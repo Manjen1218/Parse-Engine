@@ -1,5 +1,7 @@
 # ParseEngine
 
+[From Accton Technology Corporation]
+
 ParseEngine is a Python tool for parsing `.cap` log files. It uses JSON-based rules for flexible configuration and can process many files at the same time using parallel processing.
 
 ## Key Features
