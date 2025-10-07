@@ -1,18 +1,17 @@
 # ParseEngine
 
-[From Accton Technology Corporation]
+A **clean-room**, open-source example of a rule-based parsing engine.  
+This implementation was inspired by Accton Technoogy industrial parsing systems, but is **fully reimplemented** and contains **no confidential or proprietary content**.
 
-ParseEngine is a Python tool for parsing `.cap` log files. It uses JSON-based rules for flexible configuration and can process many files at the same time using parallel processing.
+`Parse-Engine` supports structured parsing of raw log or capture files into JSON or structured data, using customizable rules. It’s intended for use in production environments where you need flexible, high-performance parsing logic for multiple SKUs/test stations.
 
-## Key Features
+## Features
 
-- Flexible parsing rules using JSON config
-- Searches all subfolders for `.cap` files
-- Multi-threaded processing for better speed
-- Outputs results to console or CSV file
-- Detailed error logging
-- Configurable logging levels
-- Command-line interface for easy use
+- Generic rule-based parsing engine (tokenization, field extraction, conditional logic)  
+- JSON-based rule definitions, grouped by SKU or station  
+- Extensible architecture for custom parsing modules  
+- Designed to be embedded into larger systems (e.g. log ingestion pipelines)  
+- Clean abstractions: engine core separated from rule files 
 
 ## Project Structure
 
@@ -25,7 +24,7 @@ ParseEngine/
 │   └── utils.py           # Helper functions
 ├── main.py               # Main program entry
 ├── sku_setting/          # JSON rules folder
-│   └── k2v5_jrd03r_pt.json # Parsing rules file
+│   └── rule.json # Parsing rules file
 └── README.md             # Documentation
 ```
 
@@ -35,6 +34,21 @@ ParseEngine/
 - No extra packages needed
 
 ## How to Use
+### 0. Get Started
+```bash
+# Clone repo
+git clone <repo-url> && cd Parse-Engine
+
+# Create environment (optional but recommended)
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run sample parsing
+python3 examples/run_sample.py --rule examples/sample1_rule.json --input examples/sample1.cap
+```
 
 ### 1. Parse Single File
 
@@ -50,7 +64,7 @@ configure_logging(enable_logging=True, level=logging.INFO)
 parser = ParseEngineData()
 
 # Load JSON rules
-with open('sku_setting/k2v5_jrd03r_pt.json', 'r', encoding='UTF-8') as f:
+with open('sku_setting/sample_rule.json', 'r', encoding='UTF-8') as f:
     json_rules = json.load(f)
 
 # Parse one file
@@ -75,7 +89,7 @@ configure_logging(enable_logging=True, level=logging.INFO)
 engine = ParseEngine()
 
 # Load JSON rules
-with open('sku_setting/k2v5_jrd03r_pt.json', 'r', encoding='UTF-8') as f:
+with open('sku_setting/sample_rule.json', 'r', encoding='UTF-8') as f:
     json_rules = json.load(f)
 
 # Get list of files to parse
